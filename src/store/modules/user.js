@@ -18,8 +18,8 @@ export function logout() {
 
 // 초기 상태 설정
 const initState = {
+  userId: '',
   userEmail: '',
-  userNickName: '',
   isLogin: false,
 };
 
@@ -32,8 +32,8 @@ export default function users(state = initState, action) {
     case LOGIN:
       return {
         ...state,
+        userId: action.payload.id,
         userEmail: action.payload.email,
-        userNickName: action.payload.nickName,
         isLogin: true,
       };
     case LOGOUT:

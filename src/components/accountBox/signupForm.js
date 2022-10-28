@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import {
   BoxContainer,
   FormContainer,
@@ -14,39 +14,58 @@ import { AccountContext } from './accountContext';
 import { Box } from '@mui/material';
 import kakao from '../../image/kakao.png';
 import google from '../../image/google.png';
+import { redirect, useNavigate } from 'react-router-dom';
 
-export function SignupForm(props) {
+export default function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
+  const id = useRef();
+  const pw = useRef();
+  const email = useRef();
+  const navigate = useNavigate();
+
+  async function inputHandler(id, pw, email) {
+    const res = await fetch('http://localhost:4000/login/incid', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id,
+        pw,
+        email,
+      }),
+    });
+    const result = await res.json();
+    if (result === '회원가입 완료') {
+      alert('회원가입 성공');
+      switchToSignin();
+    } else {
+      alert('회원가입 실패');
+    }
+  }
 
   return (
     <BoxContainer>
-      <TopText>Full Name</TopText>
+      <TopText>User id</TopText>
       <Marginer direction="vertical" margin={5} />
       <FormContainer>
-        <Input type="text" placeholder="Full Name" />
-      </FormContainer>
-      <Marginer direction="vertical" margin={10} />
-
-      <TopText>User Email</TopText>
-      <Marginer direction="vertical" margin={5} />
-      <FormContainer>
-        <Input type="email" placeholder="Email" />
+        <Input type="id" placeholder="id를 입력해주세요" ref={id} />
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
 
       <TopText>Password</TopText>
       <Marginer direction="vertical" margin={5} />
       <FormContainer>
-        <Input type="password" placeholder="Password" />
+        <Input type="password" placeholder="Password" ref={pw} />
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
 
-      <TopText>Password Confirm</TopText>
+      <TopText>Email</TopText>
       <Marginer direction="vertical" margin={5} />
       <FormContainer>
-        <Input type="password" placeholder="Confirm Password" />
+        <Input type="email" placeholder="이메일을 입력해주세요" ref={email} />
       </FormContainer>
-      <Marginer direction="vertical" margin="1.6em" />
+      <Marginer direction="vertical" margin={10} />
 
       <SmallText>or you can register with</SmallText>
       <OtherLogin>
@@ -79,7 +98,14 @@ export function SignupForm(props) {
         </a>
       </OtherLogin>
       <Marginer direction="vertical" margin={20} />
-      <SubmitButton type="submit">Sign in</SubmitButton>
+      <SubmitButton
+        type="submit"
+        onClick={() => {
+          inputHandler(id.current.value, pw.current.value, email.current.value);
+        }}
+      >
+        Sign in
+      </SubmitButton>
       <Marginer direction="vertical" margin="1.6em" />
       <SmallText>
         Do you have an account?
