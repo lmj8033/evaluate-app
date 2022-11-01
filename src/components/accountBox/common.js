@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const TopText = styled.div`
   font-size: 14px;
   min-width: 6vw;
-  margin-right: 12vw;
 `;
 
 export const BoxContainer = styled.div`
@@ -12,6 +11,7 @@ export const BoxContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 10px;
+  justify-content: left;
 `;
 
 export const FormContainer = styled.form`

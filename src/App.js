@@ -12,6 +12,9 @@ import Login2 from './components/LoginPage/Login2';
 import { useSelector } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 import Login from './components/accountBox/loginForm';
+import Mypage from './components/Mypages/Mypage';
+import Study from './components/Mypages/Study';
+import Profile from './components/Mypages/Profile';
 
 function App() {
   // const isLogin = useSelector((state) => state.users.isLogin);
@@ -34,6 +37,9 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login2 />}></Route>
         {/* <Route path="/login" element={isLogin ? <Login2 /> : <Login2 />} /> */}
+        <Route path="/mypage" element={<Mypage />}></Route>
+        <Route path="/mypage/profile" element={<Profile />}></Route>
+        <Route path="/mypage/study" element={<Study />}></Route>
       </Routes>
     </>
   );

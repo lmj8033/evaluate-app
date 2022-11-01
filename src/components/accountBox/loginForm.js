@@ -41,7 +41,7 @@ export function LoginForm(props) {
     setOpenDialog(false);
 
     const loginInfo = {
-      email: userIdInput.current.value,
+      id: userIdInput.current.value,
       password: userPasswordInput.current.value,
     };
 
@@ -62,6 +62,7 @@ export function LoginForm(props) {
         console.log(result);
         if (result.result) {
           dispatch(login(result));
+          navigate('/main');
         }
 
         setLoginCondition({
