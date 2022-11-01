@@ -24,7 +24,7 @@ const KAKAO_CLIENT_ID = 'fd32ba2050199e532fe49d5c35a2c0d7';
 const KAKAO_REDIRECT_URI = 'http://localhost:3000/oauth/callback/kakao';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
-export function LoginForm(props) {
+export default function LoginForm(props) {
   const [loginCondition, setLoginCondition] = useState({
     condition: false,
     msg: '회원 정보를 정확하게 입력하세요!',
@@ -37,12 +37,16 @@ export function LoginForm(props) {
   const userIdInput = useRef();
   const userPasswordInput = useRef();
 
-  async function loginUser() {
+  async function loginUser(id, pw) {
     setOpenDialog(false);
 
     const loginInfo = {
       id: userIdInput.current.value,
+<<<<<<< HEAD
       password: userPasswordInput.current.value,
+=======
+      pw: userPasswordInput.current.value,
+>>>>>>> ebf4ee60a1b7cf9e210b253b31376c829c1eefa1
     };
 
     if (
@@ -62,7 +66,11 @@ export function LoginForm(props) {
         console.log(result);
         if (result.result) {
           dispatch(login(result));
+<<<<<<< HEAD
           navigate('/main');
+=======
+          navigate('/middle');
+>>>>>>> ebf4ee60a1b7cf9e210b253b31376c829c1eefa1
         }
 
         setLoginCondition({
@@ -84,7 +92,7 @@ export function LoginForm(props) {
       <Marginer direction="vertical" margin={5} />
       <FormContainer>
         <Input
-          type="name"
+          type="id"
           placeholder="ID"
           onChange={(input) => {
             userIdInput.current.value = input.target.value;
