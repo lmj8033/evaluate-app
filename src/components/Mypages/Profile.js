@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Navbar from '../Mainpage/Navbar.js';
 import './Study.css';
+const formData = new FormData();
 
 const Topbox = styled.div`
   width: 100%;
@@ -46,6 +47,8 @@ const Name = styled.h5`
 `;
 
 const Nation = styled.h5``;
+
+const Age = styled.h5``;
 
 const Introduction = styled.h5``;
 
@@ -208,18 +211,91 @@ const PwInput = styled.input`
   }
 `;
 export default function Study() {
+  const img = useRef();
+  const id = useRef();
+  const nickname = useRef();
+  const nation = useRef();
+  const email = useRef();
+  const pw = useRef();
+  const text = useRef();
+
+  const [lookimg, setLookimg] = useState('');
+  const [lookid, setLookid] = useState('');
+  const [looknickname, setLookNickName] = useState('');
+  const [looknation, setLookNation] = useState('');
+  const [lookemail, setLookEmail] = useState('');
+  const [lookpw, setLookpw] = useState('');
+  const [looktext, setLookText] = useState('');
+
+  async function imgHandler(e) {
+    formData.append('img', e.target.files[0]);
+  }
+
+  async function saveHandler(id, pw, email, nickname, nation, text) {
+    const resImg = await fetch('http://localhost:4000/mypage/setimg', {
+      method: 'POST',
+      headers: {},
+      body: formData,
+    });
+
+    const imgName = await resImg.json();
+
+    const res = await fetch('http://localhost:4000/mypage/setdata', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id,
+        pw,
+        email,
+        nickname,
+        text,
+        nation,
+        img: imgName,
+      }),
+    });
+
+    const result = await res.json();
+    if (result === '내 정보 수정 완료') {
+      alert('수정 완료');
+    } else {
+      alert('통신 오류');
+    }
+  }
+
+  useEffect(() => {
+    fetch('http://localhost:4000/mypage/', {
+      method: 'GET',
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        setLookid(res.id);
+        setLookpw(res.pw);
+        setLookEmail(res.email);
+        setLookNickName(res.nickname);
+        setLookNation(res.nation);
+        setLookimg(res.img);
+        setLookText(res.text);
+        nickname.current.value = res.nickname;
+        nation.current.value = res.nation;
+        pw.current.value = res.pw;
+        text.current.value = res.text;
+      });
+  }, []);
+
   return (
     <>
       <Navbar />
       <Topbox>
         <Profilebox>
           <Profilepic>
-            <Input />
+            <Input type="file" ref={img} onChange={imgHandler} />
+            {lookimg}
           </Profilepic>
           <Profilename>
-            <Name>이름 :</Name>
-            <Nation>국가 :</Nation>
-            <Introduction>자기소개 : </Introduction>
+            <Name>이름 : {looknickname} </Name>
+            <Nation>국가 : {looknickname} </Nation>
+            <Introduction>자기소개 : {looktext} </Introduction>
           </Profilename>
         </Profilebox>
       </Topbox>
@@ -231,39 +307,76 @@ export default function Study() {
 
       <MainProfile>
         <Modify>
-          <Word>이름</Word>
-          <Inputbox placeholder="Name" />
-          <Savebtn>저장</Savebtn>
-        </Modify>
-
-        <Modify>
-          <Word>나이</Word>
-          <Inputbox placeholder="Age" />
-          <Savebtn>저장</Savebtn>
-        </Modify>
-
-        <Modify>
-          <Word>거주 국가</Word>
-          <NationInput placeholder="Nation" />
-          <Savebtn>저장</Savebtn>
+          <Word>아이디</Word>
+          <EmailInput value={lookid} />
+          <Savebtn
+            onClick={() => {
+              saveHandler(id.current.value);
+            }}
+          >
+            저장
+          </Savebtn>
         </Modify>
 
         <Modify>
           <Word>이메일</Word>
-          <EmailInput placeholder="Email" />
-          <Savebtn>저장</Savebtn>
+          <EmailInput value={lookemail} />
+
+          <Savebtn
+            onClick={() => {
+              saveHandler(email.current.value);
+            }}
+          >
+            저장
+          </Savebtn>
+        </Modify>
+
+        <Modify>
+          <Word>이름</Word>
+          <Inputbox placeholder="Name" ref={nickname} />
+          <Savebtn
+            onClick={() => {
+              saveHandler(nickname.current.value);
+            }}
+          >
+            저장
+          </Savebtn>
+        </Modify>
+
+        <Modify>
+          <Word>거주 국가</Word>
+          <NationInput placeholder="Nation" ref={nation} />
+          <Savebtn
+            onClick={() => {
+              saveHandler(nation.current.value);
+            }}
+          >
+            저장
+          </Savebtn>
         </Modify>
 
         <Modify>
           <Word>비밀번호 변경</Word>
-          <PwInput placeholder="Password" type="password" />
-          <Savebtn>저장</Savebtn>
+          <PwInput placeholder="Password" type="password" ref={pw} />
+          <Savebtn
+            onClick={() => {
+              saveHandler(pw.current.value);
+            }}
+          >
+            저장
+          </Savebtn>
         </Modify>
 
         <Modify>
           <Word>자기 소개</Word>
-          <NationInput placeholder="Nation" />
-          <Savebtn>저장</Savebtn>
+          <NationInput placeholder="Introduce" ref={text} />
+          <Savebtn
+            onClick={() => {
+              saveHandler(text.current.value);
+            }}
+          >
+            저장
+          </Savebtn>
         </Modify>
       </MainProfile>
     </>

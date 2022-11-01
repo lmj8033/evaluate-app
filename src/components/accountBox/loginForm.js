@@ -42,11 +42,10 @@ export default function LoginForm(props) {
 
     const loginInfo = {
       id: userIdInput.current.value,
-<<<<<<< HEAD
+
       password: userPasswordInput.current.value,
-=======
+
       pw: userPasswordInput.current.value,
->>>>>>> ebf4ee60a1b7cf9e210b253b31376c829c1eefa1
     };
 
     if (
@@ -66,11 +65,10 @@ export default function LoginForm(props) {
         console.log(result);
         if (result.result) {
           dispatch(login(result));
-<<<<<<< HEAD
+
           navigate('/main');
-=======
+
           navigate('/middle');
->>>>>>> ebf4ee60a1b7cf9e210b253b31376c829c1eefa1
         }
 
         setLoginCondition({

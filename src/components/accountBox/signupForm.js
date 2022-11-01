@@ -44,10 +44,6 @@ export default function SignupForm(props) {
     }
   }
 
-  const id = useRef();
-  const pw = useRef();
-  const email = useRef();
-
   async function inputHandler(id, pw, email) {
     const res = await fetch('http://localhost:4000/login/incid', {
       method: 'POST',
@@ -69,7 +65,6 @@ export default function SignupForm(props) {
   }
   return (
     <BoxContainer>
-<<<<<<< HEAD
       <TopText>Email</TopText>
       <Marginer direction="vertical" margin={5} />
       <FormContainer>
@@ -81,14 +76,7 @@ export default function SignupForm(props) {
       <Marginer direction="vertical" margin={5} ref={id} />
       <FormContainer>
         <Input type="id" placeholder="ID" />
-=======
-      <TopText>User id</TopText>
-      <Marginer direction="vertical" margin={5} />
-      <FormContainer>
-        <Input type="id" placeholder="id를 입력해주세요" ref={id} />
->>>>>>> ebf4ee60a1b7cf9e210b253b31376c829c1eefa1
       </FormContainer>
-      <Marginer direction="vertical" margin={10} />
 
       <TopText>Password</TopText>
       <Marginer direction="vertical" margin={5} />
@@ -97,8 +85,6 @@ export default function SignupForm(props) {
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
 
-<<<<<<< HEAD
-=======
       <TopText>Email</TopText>
       <Marginer direction="vertical" margin={5} />
       <FormContainer>
@@ -106,7 +92,6 @@ export default function SignupForm(props) {
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
 
->>>>>>> ebf4ee60a1b7cf9e210b253b31376c829c1eefa1
       <SmallText>or you can register with</SmallText>
       <OtherLogin>
         <a>
